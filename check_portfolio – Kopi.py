@@ -10,26 +10,25 @@ pd.set_option('display.max_columns', 200)
 pd.set_option('display.width', 1000)
 pd.set_option('display.max_rows', 10000)
 
-#stocks = ['AKRBP', 'DNB', 'AKAST']
-	
-#d = mp.Portefølje(1, stocks , 100000, ftc = 0.0, vtc = 0.0, verbose = False)
-#print(d.data)
-
 class portefoljø1(Portefølje):
 	def strategi(self, SMA):
+
+		"""Here I define the new column of interest, to determine when to buy and when to sell a stock."""
 		for i in self.d:
 			#print(self.d[f'{i}']['data'])
 			self.d[f'{i}']['data']['SMA'] = self.d[f'{i}']['data'].Close_.rolling(SMA).mean()
-			self.d[f'{i}']['data'] = self.d[f'{i}']['data'].dropna()
+			self.d[f'{i}']['data']['SMA'].dropna(inplace = True)
 
+		
 
+		"""Here I just define how many rows of data I have. The end result "first_lens", is an integer that is the total length of the data"""
 		first_lens = len(self.d[self.symbol[0]]['data'])
 		if len(self.symbol) > 1:
 			for i in self.symbol:
 				if len(self.d[f'{i}']['data']) == first_lens:
 					continue
 				else:
-					print("Unequal lengths of dfs")
+					print("Unequal lengths of dfs, all dfs need to have same length")
 
 
 		self.d2 = {}
@@ -48,15 +47,16 @@ class portefoljø1(Portefølje):
 								'date' : inner_dict['data']['Dato'].iloc[bar]}
 				
 				if inner_dict['position'] == 0:
-					#print(inner_dict['amount'], symbol)
-					#if inner_dict['amount'] > 0:
+					if self.get_units(bar, sym) * inner_dict['data'].Close_.iloc[bar] < inner_dict['amount']:
+						#print(inner_dict['amount'], symbol)
+						#if inner_dict['amount'] > 0:
 
-					if inner_dict['data'].Close_.iloc[bar] < inner_dict['data']['SMA'].iloc[bar]:
-						#print(f'KJØP er i loop, dato er 		: 		{inner_dict['data'].Dato.iloc[bar]}		Close_	:		{inner_dict['data'].Close_.iloc[bar]}')
-						self.place_buy_order(bar, units = None, amount = self.amount, sym = symbol)
-						#print(f'Bought : {self.units}, amount : {self.amount}')
-					
-						#inner_dict['position'] = 1
+						if inner_dict['data'].Close_.iloc[bar] < inner_dict['data']['SMA'].iloc[bar]:
+							#print(f'KJØP er i loop, dato er 		: 		{inner_dict['data'].Dato.iloc[bar]}		Close_	:		{inner_dict['data'].Close_.iloc[bar]}')
+							self.place_buy_order(bar, units = None, amount = self.amount, sym = symbol)
+							#print(f'Bought : {self.units}, amount : {self.amount}')
+						
+							#inner_dict['position'] = 1
 
 				elif inner_dict['position'] == 1:
 
@@ -73,9 +73,9 @@ class portefoljø1(Portefølje):
 		#print(self.d.items())	
 		#pp.pprint(self.d2)
 		
-		pp.pprint(self.d2)
+		#pp.pprint(self.d2)
 
-		exit()
+		#exit()
 		total_net_wealth_development = []
 		for i in self.d2.items():
 			#print("i")
