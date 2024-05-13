@@ -1,5 +1,5 @@
 # Algorithmic-trading
-A repository for my attempt at coding a working algorithmic trading setup
+A repository for my attempt at coding a working algorithmic trading framework, thats supposed to take an input of several stock tickers (could really be anything that is noted on an exchange, that has time series type data), these four stocks will be allocated 100 000 / # of stocks, so all stocks have equal portions of the total sum put into the framework.
 
 The two files of interest are My_portfolio2.py and check_portfolio.py, dont mind the copy.
 
