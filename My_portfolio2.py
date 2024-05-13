@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 import os
-from db import DBHelper
+#from db import DBHelper
 import pymysql
 from sqlalchemy import create_engine
 import mysql.connector
@@ -41,7 +41,14 @@ class Portefølje(object):
             inner_dict['position'] = 0
             inner_dict['units'] = 0
             d[f'{symbol}'] = inner_dict
-        
+
+        """self.d is a nested dictionary. The outer dict, consists of a key, 
+        being the ticker to the stock, with an inner_dict that contains ; 
+        ("data", which is the dataframe of the data we want to loop through),
+        ("amount", which is the cash assigned to that stock)
+        ("net_wealth", which is the cash plus the money used to buy the stock at signal occurrence)
+        ("postition", which is either 0 or 1, where 0 means that we dont own this stock from before, and 1 means we already own shares of this stock)
+        ("units", which is the amount of stocks we own for the corresponding stock) """
         self.d = d
         #print(self.d)
     
@@ -74,10 +81,10 @@ class Portefølje(object):
 
         return self.data
 
-    def get_units(self, bar):
-        date, Close = self.get_date_price(bar)
-        amount_to_invest = self.amount / len(self.symbol)
-        units = math.floor(amount_to_invest / Close)
+    def get_units(self, bar, sym):
+        """Alternative method of finding optimal # of stocks to buy, given a signal occurrence"""
+        date, Close = self.get_date_price(bar, sym)
+        units = math.floor(self.d[f'{sym}']['amount'] / Close)
         #print(units)
         return units
 
@@ -146,4 +153,3 @@ class Portefølje(object):
         self.d[f'{sym}']['position'] = 0
         self.d[f'{sym}']['units'] -= units
         #print(self.d[f'{sym}']['net_wealth'], self.d[f'{sym}']['amount'], self.d[f'{sym}']['position'], self.d[f'{sym}']['units'])
-
