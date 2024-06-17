@@ -1,4 +1,7 @@
 # Algorithmic-trading
+Note:
+lokalKurser.db.zip needs to be extracted because it was too large. Download the two github.py files, and the extracted db file to a directory. When you then run 
+
 A repository for my attempt at coding a working algorithmic trading framework, thats supposed to take an input of several stock tickers (could really be anything that is noted on an exchange, that has time series type data), these four stocks will be allocated (100 000 / # of stocks). For example, if I have 4 stocks trading, then all 4 stocks will be allocated 25000, so all stocks have equal portions of the total sum put into the framework. Implementing this for a single stock is 
 simple enough, but implementing several stocks at once, while ensuring that I dont use more cash than available to buy a stock, is a bit more of a serious task...
 
