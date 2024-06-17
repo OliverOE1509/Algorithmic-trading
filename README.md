@@ -2,10 +2,10 @@
 Note:
 lokalKurser.db.zip needs to be extracted because it was too large. Download the two github.py files, and the extracted db file to a directory. When you then run run_algorithm_Github.py, and you get an equity curve showing in matplotlib, then the code has been run successfully. Ignore db.py
 
-A repository for my attempt at coding a working algorithmic trading framework, thats supposed to take an input of several stock tickers (could really be anything that is noted on an exchange, that has time series type data), these four stocks will be allocated (100 000 / # of stocks). For example, if I have 4 stocks trading, then all 4 stocks will be allocated 25000, so all stocks have equal portions of the total sum put into the framework. Implementing this for a single stock is 
-simple enough, but implementing several stocks at once, while ensuring that I dont use more cash than available to buy a stock, is a bit more of a serious task...
+This is a repository for my attempt at coding a working algorithmic trading framework, thats supposed to take an input of several stock tickers (could really be anything that is noted on an exchange, that has time series type data), these four stocks will be allocated (100 000 / # of stocks). For example, if I have 4 stocks trading, then all 4 stocks will be allocated 25000, so all stocks have equal portions of the total sum put into the framework. Implementing this for a single stock is 
+simple enough, but implementing several stocks at once, while ensuring that I dont use more cash than available to buy a stock, is a bit more of a serious task for me...
 
-The algorithm in "check_portfolio.py" works the following:
+The algorithm in "run_algorithm_Github.py" works the following:
 1. I first create a dictionary called d2, which will have a key being the current bar (bar = date), and item being the inner_dict containing all info for each row.
 2. I then loop through all bars, which in this case is SMA to the length of all dataframe rows. All dataframes selected, have the same # of rows.
 3. For each bar, I create an inner dict
@@ -24,9 +24,9 @@ The result is self.d2. If you prettyprint it, I cant find any rows, where the am
 Dont bother about the SQL part. I will supply a static database for running the code. My database at home updates itself everyday, inserting into the database the most recent data available from Euronext.com. I can supply the method of how I went through the Euronext wall if it is of interest.
 
 
-The two files of interest are My_portfolio2.py and check_portfolio.py, dont mind the copy at the end of check_portfolio.py.
+The two files of interest are My_portfolio_Github.py and run_algorithm_Github.py.
 
-My_portfolio2.py initiates the parent class that defines all functions universal in all algorithmic trading strategies. This is for instance the buy and sell function. 
+My_portfolio_Github.py initiates the parent class that defines all functions universal in all algorithmic trading strategies. This is for instance the buy and sell function. 
 
 The data is also gathered in the parent class. The format_connection() function, is what selects all data relevant from the database. Now look at self.d, which is a nested dictionary, where the outer key and value, is the ticker of the stock, and the value is the dataframe selected from the database. This is the most efficient and best way to store the data for each stock I could find.
 
